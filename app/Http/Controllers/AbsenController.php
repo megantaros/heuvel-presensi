@@ -78,8 +78,10 @@ class AbsenController extends Controller
         $jamPulang = Setting::find('jam_pulang')?->value;
         $jamPulangParsed = Carbon::parse(date('Y-m-d') . ' ' . $jamPulang);
 
+        // $totalJam = Carbon::parse(date('Y-m-d') . ' ' . $today->waktu_masuk)
+        //     ->diffInHours(date('H:i:s'));
         $totalJam = Carbon::parse(date('Y-m-d') . ' ' . $today->waktu_masuk)
-            ->diffInHours(date('H:i:s'));
+            ->diffInHours($jamPulangParsed);
 
         if ($jamPulangParsed < Carbon::now()) {
             $today->waktu_keluar = $jamPulang;
