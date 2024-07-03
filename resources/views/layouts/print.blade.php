@@ -4,13 +4,12 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Print</title>
-    <style type="text/css">
+    <style>
         body {
             font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
             margin: 0;
             padding: 20px;
             color: #333;
-            font-size: 12pt !important;
         }
 
         .print-container {
@@ -20,25 +19,34 @@
         }
 
         .header {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            gap: 20px;
             margin-bottom: 20px;
+            overflow: hidden;
+        }
+
+        .header .header-img {
+            float: left;
+            width: 200px;
+            margin-right: 20px;
+        }
+
+        .header .header-img img {
             width: 100%;
         }
 
-        .header img {
-            width: 130px;
+        .header .header-text {
+            float: left;
+            width: calc(100% - 150px);
         }
 
         .header h4 {
             margin: 0;
             font-weight: 600;
+            font-size: 18pt;
         }
 
         .header p {
             margin: 0;
+            font-size: 10pt;
         }
 
         .content {
@@ -49,6 +57,8 @@
         .content h4 {
             margin: 0;
             font-weight: 700;
+            font-size: 14pt;
+            margin: 20px 0;
         }
 
         table {
@@ -64,6 +74,7 @@
         th, td {
             padding: 10px;
             text-align: left;
+            font-size: 10pt;
         }
 
         th {
@@ -77,7 +88,7 @@
 
         @media print {
             body {
-                font-size: 10pt !important;
+                font-size: 10pt;
                 margin: 0;
                 padding: 0;
             }
@@ -97,14 +108,15 @@
   <body>
     <div class="print-container">
         <div class="header">
-            <img src="{{ public_path('img/logo/logo.png') }}" alt="Logo">
+            <div class="header-img">
+                <img src="{{ public_path('img/logo/logo.png') }}" alt="Logo">
+            </div>
             <div>
                 <h4>Heuvel Tribe</h4>
-                <p>Office: Dorowati No.9, Karangsari, Wedomartani, Ngemplak, Sleman<br> 
-                   Daerah Istimewa Yogyakarta<br>
-                   <span>Phone: 0274-887744</span><br>
-                   <span>Email: heuvelcloth@gmail.com</span>
-                </p>
+                <p>Office: Dorowati No.9, Karangsari, Wedomartani, Ngemplak, Sleman</p>  
+                <p>Daerah Istimewa Yogyakarta</p>    
+                <p>Phone: 0274-887744</p>   
+                <p>Email: heuvelcloth@gmail.com</p>
             </div>
         </div>
 
