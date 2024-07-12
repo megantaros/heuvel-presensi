@@ -61,6 +61,12 @@ class AbsenController extends Controller
     {
         $keterlambatan = $jamMasuk->diffInHours(Carbon::now());
         $keteranganTerlambat = 'Terlambat ' . $keterlambatan . ' jam' . ($keterlambatan > 0 ? '' : ' ' . $jamMasuk->diffInMinutes(Carbon::now()) . ' menit');
+        $jamPulang = Setting::find('jam_pulang')?->value;
+
+        // presensi dibatalkan jika sudah lewat jam pulang
+        // if ($jamMasuk > $jamPulang) {
+        //     return redirect()->back()->with('error', 'Bukan waktu presensi!');
+        // }
 
         Absen::create([
             'waktu_masuk' => date('H:i:s'),

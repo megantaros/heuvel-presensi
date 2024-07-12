@@ -135,12 +135,17 @@ class RekapController extends Controller
             ];
         }
 
-        $pdf = app('dompdf.wrapper');
-        $pdf->loadView('print.rekapitulasi', [
+        // $pdf = app('dompdf.wrapper');
+        // $pdf->loadView('print.rekapitulasi', [
+        //     'users' => $users,
+        //     'results' => $result,
+        // ]);
+
+        // return $pdf->stream('rekapitulasi.pdf');
+
+        return view('print.rekapitulasi', [
             'users' => $users,
             'results' => $result,
         ]);
-
-        return $pdf->stream('rekapitulasi.pdf');
     }
 }

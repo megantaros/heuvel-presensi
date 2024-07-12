@@ -15,7 +15,7 @@
         .print-container {
             width: 100%;
             margin: 0 auto;
-            padding: 20px;
+            /* padding: 20px; */
         }
 
         .header {
@@ -90,7 +90,7 @@
             body {
                 font-size: 10pt;
                 margin: 0;
-                padding: 0;
+                padding: 30px;
             }
             .print-container {
                 padding: 10px;
@@ -109,7 +109,8 @@
     <div class="print-container">
         <div class="header">
             <div class="header-img">
-                <img src="{{ public_path('img/logo/logo.png') }}" alt="Logo">
+                {{-- <img src="{{ public_path('img/logo/logo.png') }}" alt="Logo"> --}}
+                <img src="{{ asset('img/logo/logo.png') }}" alt="Logo" style="height: 80px;">
             </div>
             <div>
                 <h4>Heuvel Tribe</h4>
@@ -124,5 +125,7 @@
 
         @yield('content')
     </div>
+
+    <script>window.print()</script>
   </body>
 </html>

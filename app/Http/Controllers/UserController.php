@@ -142,10 +142,10 @@ class UserController extends Controller
     {
         $users = User::with('jabatan')->get();
 
-        $pdf = PDF::loadView('print.karyawan', compact('users'));
-        $pdf->setPaper('A4', 'potrait');
-        $pdf->set_option('isRemoteEnabled', true);
-        return $pdf->download('data-karyawan.pdf');
-        // return view('layouts.print', compact('users'));
+        // $pdf = PDF::loadView('print.karyawan', compact('users'));
+        // $pdf->setPaper('A4', 'potrait');
+        // $pdf->set_option('isRemoteEnabled', true);
+        // return $pdf->download('data-karyawan.pdf');
+        return view('print.karyawan', compact('users'));
     }
 }
