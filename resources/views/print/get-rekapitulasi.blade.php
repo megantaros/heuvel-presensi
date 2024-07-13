@@ -27,7 +27,7 @@
         <table>
             <tr>
                 <td style="background-color: #f1f1f1; font-weight: 600;">Jumlah Kehadiran</td>
-                <td><strong>{{ $count }} Jam</strong></td>
+                <td><strong>{{ $count }} Hari</strong></td>
             </tr>
             <tr>
                 <td style="background-color: #f1f1f1; font-weight: 600;">Jumlah Jam Terlambat</td>
