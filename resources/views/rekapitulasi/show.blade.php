@@ -2,7 +2,12 @@
 
 @section('content')
     <div class="container-xl container-p-y">
-        <h4 class="mb-4">Data Kehadiran <strong>{{ $user->nama }}</strong></h4>
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h4 class="m-0">Data Kehadiran <strong>{{ $user->nama }}</strong></h4>
+            <a type="button" href="/recap/{{ $user->id }}/print" class="btn btn-primary">
+                <i class="bx bxs-file-pdf"></i> Cetak
+            </a>
+        </div>
         <div class="d-flex row mb-4">
             <div class="col col-sm-4">
                 <div class="card">

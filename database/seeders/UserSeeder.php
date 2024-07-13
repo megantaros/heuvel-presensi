@@ -20,7 +20,7 @@ class UserSeeder extends Seeder
     {
         $password = Hash::make('password');
         $punchIn = '09:34:00';
-        $punchOut = '16:34:00';
+        $punchOut = '16:00:00';
         $diffLate = round(Carbon::parse('09:00:00')->diffInMinutes($punchIn) / 60);
 
         // Menghitung selisih waktu punch in dan punch out dalam jam

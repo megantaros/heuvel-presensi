@@ -13,22 +13,22 @@ class RekapController extends Controller
     /**
      * Handle the incoming request.
      */
-    public function __invoke(Request $request, User $user)
+    public function show(Request $request, User $user)
     {
-        /** @var \Illuminate\Database\Eloquent\Builder */
+        // Inisialisasi query builder
         $query = (new Absen())->newQuery()
             ->where('id_user', $user->id)
             ->orderBy('tanggal', 'desc');
 
+        // Tambahkan filter tanggal jika ada
         if ($request->input('since') && $request->input('until')) {
-            $query = $query
-                ->where('tanggal', '>=', $request->input('since'))
-                ->where('tanggal', '<=', $request->input('until'));
+            $query->whereBetween('tanggal', [$request->input('since'), $request->input('until')]);
         }
 
-        /** @var LengthAwarePaginator */
+        // Ambil data dengan paginasi
         $data = $query->paginate(35);
 
+        // Tambahkan parameter query string untuk paginasi jika ada filter tanggal
         if ($request->input('since') && $request->input('until')) {
             $data->appends([
                 'since' => $request->input('since'),
@@ -36,15 +36,63 @@ class RekapController extends Controller
             ]);
         }
 
-        $totalLateHours = $query->selectRaw('sum(total_jam_terlambat) as late_hours')
-            ->first()?->late_hours;
+        // Clone query builder untuk menghitung total jam terlambat dan jumlah data
+        $summaryQuery = clone $query;
 
-        $count = $query->count();
+        // Hitung total jam terlambat
+        $totalLateHours = $summaryQuery->sum('total_jam_terlambat');
 
-        $salaryCuts = $totalLateHours * (Setting::find('potongan_gaji_per_jam')?->value ?? 0);
+        // Hitung jumlah data
+        $count = $summaryQuery->count();
+
+        // Hitung potongan gaji berdasarkan total jam terlambat
+        $salaryCutPerHour = Setting::find('potongan_gaji_per_jam')?->value ?? 0;
+        $salaryCuts = $totalLateHours * $salaryCutPerHour;
         $salaryCuts = "Rp " . number_format($salaryCuts, 0, ',', '.');
 
+        // Return view dengan data yang telah dihitung
         return view('rekapitulasi.show', [
+            'user' => $user,
+            'data' => $data,
+            'totalLateHours' => $totalLateHours,
+            'count' => $count,
+            'salaryCuts' => $salaryCuts,
+        ]);
+    }
+
+    public function printShow(Request $request, $id)
+    {
+        $user = User::find($id);
+
+        // Inisialisasi query builder
+        $query = (new Absen())->newQuery()
+            ->where('id_user', $user->id)
+            ->orderBy('tanggal', 'desc');
+
+        // Tambahkan filter tanggal jika ada
+        if ($request->input('since') && $request->input('until')) {
+            $query->whereBetween('tanggal', [$request->input('since'), $request->input('until')]);
+        }
+
+        // Ambil data tanpa paginasi
+        $data = $query->get();
+
+        // Clone query builder untuk menghitung total jam terlambat dan jumlah data
+        $summaryQuery = clone $query;
+
+        // Hitung total jam terlambat
+        $totalLateHours = $summaryQuery->sum('total_jam_terlambat');
+
+        // Hitung jumlah data
+        $count = $summaryQuery->count();
+
+        // Hitung potongan gaji berdasarkan total jam terlambat
+        $salaryCutPerHour = Setting::find('potongan_gaji_per_jam')?->value ?? 0;
+        $salaryCuts = $totalLateHours * $salaryCutPerHour;
+        $salaryCuts = "Rp " . number_format($salaryCuts, 0, ',', '.');
+
+        // Return view dengan data yang telah dihitung
+        return view('print.get-rekapitulasi', [
             'user' => $user,
             'data' => $data,
             'totalLateHours' => $totalLateHours,

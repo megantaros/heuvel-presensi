@@ -35,7 +35,8 @@ Route::group(['middleware' => ['roles:1,2,3', 'auth']], function () {
     Route::resource('/settings', SettingController::class);
 
     Route::get('/recap', [RekapController::class, 'index'])->name('recap');
-    Route::get('/recap/{user}', RekapController::class)->name('recap.show');
+    Route::get('/recap/{user}', [RekapController::class, 'show'])->name('recap.show');
+    Route::get('/recap/{user}/print', [RekapController::class, 'printShow'])->name('recap.show');
 
     Route::get('/print-karyawan', [UserController::class, 'print'])->name('print.karyawan');
     Route::get('/print-rekapitulasi', [RekapController::class, 'print'])->name('print.rekapitulasi');
