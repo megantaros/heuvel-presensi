@@ -56,8 +56,7 @@
                                             <div class="dropdown-menu">
                                                 <a class="dropdown-item" href="/users/{{ $user->id }}/edit"><i
                                                         class="bx bx-edit-alt me-1"></i> Edit</a>
-                                                <a onclick="setUser({{ $user }})" class="dropdown-item"
-                                                    data-bs-toggle="modal" data-bs-target="#smallModal"><i
+                                                <a id="btnDeleteUser" class="dropdown-item" data-id="{{ $user->id }}" data-name="{{ $user->nama }}"><i
                                                         class="bx bx-trash-alt me-1"></i> Hapus</a>
                                             </div>
                                         </div>
@@ -95,15 +94,12 @@
     </div>
 
     <script>
-        let user = {};
-        const formDelete = document.getElementById('formDeleteUser');
-        const text = document.getElementById('textDeleteUser');
-
-        const setUser = (userData) => {
-            user = userData;
-
-            formDeleteUser.setAttribute('action', `/users/${user.id}`)
-            text.innerHTML = user.nama;
-        }
+        document.querySelectorAll('#btnDeleteUser').forEach(item => {
+            item.addEventListener('click', event => {
+                document.getElementById('textDeleteUser').innerHTML = item.getAttribute('data-name');
+                document.getElementById('formDeleteUser').action = '/users/' + item.getAttribute('data-id');
+                $('#smallModal').modal('show');
+            })
+        })
     </script>
 @endsection

@@ -57,19 +57,10 @@ class UserController extends Controller
             'id_jabatan' => 'required|exists:jabatan,id',
         ]);
 
-        $user = User::create($validated);
+        User::create($validated);
 
-        $superUser = Jabatan::where('nama_jabatan', 'Admin')
-            ->orWhere('nama_jabatan', 'Manajer')
-            ->get()
-            ->pluck('id')
-            ->toArray();
+        return redirect('/users')->with('status', 'Data karyawan gagal disimpan!');
 
-        if (Arr::has($superUser, $validated['id_jabatan'])) {
-            $user->assignRole('super_user');
-        }
-
-        return redirect('/users')->with('status', 'Data karyawan berhasil disimpan!');
     }
 
     /**
@@ -98,7 +89,7 @@ class UserController extends Controller
     {
         $validated = $request->validate([
             'nama' => 'required',
-            'email' => ['required', Rule::unique('users')->ignore($user->id)],
+            'email' => 'required',
             'password' => 'nullable|min:8',
             'nip' => 'nullable',
             'divisi' => 'nullable',
@@ -109,21 +100,23 @@ class UserController extends Controller
             unset($validated['password']);
         }
 
-        $user->fill($validated);
-        $user->save();
+        $user->update($validated);
 
-        $superUser = Jabatan::where('nama_jabatan', 'Produksi')
-            ->orWhere('nama_jabatan', 'Admin Keuangan')
-            ->orWhere('nama_jabatan', 'Staff Admin Keuangan')
-            ->get()
-            ->pluck('id')
-            ->toArray();
+        // $user->fill($validated);
+        // $user->save();
 
-        if (Arr::has($superUser, $validated['id_jabatan'])) {
-            $user->assignRole('super_user');
-        } else {
-            $user->removeRole('super_user');
-        }
+        // $superUser = Jabatan::where('nama_jabatan', 'Produksi')
+        //     ->orWhere('nama_jabatan', 'Admin Keuangan')
+        //     ->orWhere('nama_jabatan', 'Staff Admin Keuangan')
+        //     ->get()
+        //     ->pluck('id')
+        //     ->toArray();
+
+        // if (Arr::has($superUser, $validated['id_jabatan'])) {
+        //     $user->assignRole('super_user');
+        // } else {
+        //     $user->removeRole('super_user');
+        // }
 
         return redirect('/users')->with('status', 'Data karyawan berhasil disimpan!');
     }
@@ -131,8 +124,10 @@ class UserController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(User $user)
+    public function destroy($id)
     {
+        $user = User::where('id', $id)->first();
+
         $user->delete();
 
         return redirect('/users')->with('status', 'Data karyawan berhasil dihapus!');
