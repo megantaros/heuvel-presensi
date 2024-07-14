@@ -58,6 +58,9 @@
     <script>
         let cardColor, headingColor, axisColor, shadeColor, borderColor;
 
+        const jumlahAbsen = {!! json_encode($chart->pluck('jumlah_absen')) !!};
+        const arrayData = {!! json_encode($arrayData) !!};
+        
         cardColor = config.colors.white;
         headingColor = config.colors.headingColor;
         axisColor = config.colors.axisColor;
@@ -67,7 +70,7 @@
             totalRevenueChartOptions = {
                 series: [{
                     name: 'Jumlah Kehadiran',
-                    data: {{ html_entity_decode($chart->pluck('jumlah_absen')) }}
+                    data: jumlahAbsen
                 }],
                 chart: {
                     height: 300,
@@ -123,7 +126,7 @@
                     }
                 },
                 xaxis: {
-                    categories: @json($arrayData),
+                    categories: arrayData,
                     labels: {
                         style: {
                             fontSize: '13px',

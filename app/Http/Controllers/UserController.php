@@ -59,7 +59,7 @@ class UserController extends Controller
 
         User::create($validated);
 
-        return redirect('/users')->with('status', 'Data karyawan gagal disimpan!');
+        return redirect('/users')->with('status', 'Data karyawan berhasil disimpan!');
 
     }
 

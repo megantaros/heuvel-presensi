@@ -17,7 +17,7 @@
                         <h5 class="mb-0">{{ isset($user) ? 'Edit' : 'Input' }} Data Karyawan</h5>
                     </div>
                     <div class="card-body">
-                        <form action="/users/{{ isset($user) ? $user->id : '' }}" method="POST">
+                        <form action="{{ isset($user) ? route('users.update', $user->id) : route('users.store') }}" method="POST">
                             @csrf
                             @if (isset($user))
                                 @method('PUT')
