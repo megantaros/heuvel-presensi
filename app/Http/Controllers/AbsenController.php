@@ -7,6 +7,7 @@ use App\Models\Setting;
 use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
 
 class AbsenController extends Controller
 {
@@ -54,26 +55,49 @@ class AbsenController extends Controller
         }
 
         // absen masuk
-        return $this->absenMasuk($user, $jamMasuk);
+        return $this->absenMasuk($user, $jamMasuk, request());
     }
 
-    private function absenMasuk(User $user, Carbon $jamMasuk)
+    private function absenMasuk(User $user, Carbon $jamMasuk, Request $request)
     {
         $keterlambatan = $jamMasuk->diffInHours(Carbon::now());
         $keteranganTerlambat = 'Terlambat ' . $keterlambatan . ' jam' . ($keterlambatan > 0 ? '' : ' ' . $jamMasuk->diffInMinutes(Carbon::now()) . ' menit');
-        $jamPulang = Setting::find('jam_pulang')?->value;
+        // $jamPulang = Setting::find('jam_pulang')?->value;
 
         // presensi dibatalkan jika sudah lewat jam pulang
         // if ($jamMasuk > $jamPulang) {
         //     return redirect()->back()->with('error', 'Bukan waktu presensi!');
         // }
 
+        // Mengambil data Base64 dari request
+        $base64Image = $request->input('foto');
+
+        // Menghapus metadata dari data Base64
+        $imageData = explode(',', $base64Image);
+        $imageData = isset($imageData[1]) ? $imageData[1] : '';
+
+        // Decode Base64 menjadi data biner
+        $image = base64_decode($imageData);
+
+        // Menentukan nama file dan path untuk menyimpan
+        $fileName = 'attendance-' . Str::random(10) . '.png';
+        $path = public_path('uploads/' . $fileName);
+
+        // Menyimpan file
+        file_put_contents($path, $image);
+        $lokasi = 'https://www.google.com/maps/search/?api=1&query=' . $request->input('latitude') . ',' . $request->input('longitude');
+
         Absen::create([
             'waktu_masuk' => date('H:i:s'),
             'tanggal' => date('Y-m-d'),
             'id_user' => $user->id,
             'total_jam_terlambat' => $keterlambatan,
-            'keterangan' => $keterlambatan > 0 ? $keteranganTerlambat : '-'
+            'keterangan' => $keterlambatan > 0 ? $keteranganTerlambat : '-',
+            'foto' => $fileName,
+            'latitude' => $request->input('latitude'),
+            'longitude' => $request->input('longitude'),
+            'lokasi' => $lokasi,
+            'jenis' => 'hadir'
         ]);
 
         return redirect()->back()->with('status', 'Anda berhasil melakukan presensi!');

@@ -36,7 +36,15 @@
 
     <link rel="stylesheet" href="/vendor/libs/apex-charts/apex-charts.css" />
 
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+
     <!-- Page CSS -->
+    <style>
+        /* sweetalert container */
+        .swal2-container {
+            z-index: 9999999999 !important;
+        }     
+    </style>
 
     {{-- @vite(['resources/sass/app.scss', 'resources/js/app.js']) --}}
 
@@ -46,6 +54,7 @@
     <!--! Template customizer & Theme config files MUST be included after core stylesheets and helpers.js in the <head> section -->
     <!--? Config:  Mandatory theme config file contain global vars & default theme options, Set your preferred theme option in this file.  -->
     <script src="/js/config.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.10.5/dist/sweetalert2.all.min.js"></script>
 </head>
 
 <body>
@@ -99,6 +108,7 @@
 
     <!-- Place this tag in your head or just before your close body tag. -->
     <script async defer src="https://buttons.github.io/buttons.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.10.5/dist/sweetalert2.all.min.js"></script>s
 </body>
 
 </html>

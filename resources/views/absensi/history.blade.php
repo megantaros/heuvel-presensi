@@ -1,5 +1,16 @@
 @extends('layouts.app')
 
+@php
+    use Carbon\Carbon;
+
+    function formatTanggal($tanggal) {
+        return Carbon::parse($tanggal)
+                     ->locale('id') // Set locale ke Bahasa Indonesia
+                     ->translatedFormat('l, d F Y'); // Format tanggal
+    }
+@endphp
+
+
 @section('content')
     <div class="container-xl pt-4">
         @if (session('status'))
@@ -46,10 +57,12 @@
                         <thead>
                             <tr>
                                 <th>No</th>
+                                <th>Foto</th>
                                 <th>Tanggal</th>
                                 <th>Waktu Masuk</th>
                                 <th>Keterlambatan</th>
                                 <th>Waktu Pulang</th>
+                                <th>Lokasi</th>
                                 <th>Total Jam Kerja</th>
                             </tr>
                         </thead>
@@ -57,10 +70,19 @@
                             @foreach ($data as $item)
                                 <tr>
                                     <td>{{ $loop->iteration + $data->perPage() * ($data->currentPage() - 1) }}</td>
-                                    <td>{{ $item->tanggal }}</td>
+                                    <td>
+                                        <img src="{{ asset('uploads/' . $item->foto) }}" alt="Foto" class="rounded" width="100" height="100">
+                                    </td>
+                                    <td>{{ formatTanggal($item->tanggal) }}</td>
                                     <td>{{ $item->waktu_masuk }}</td>
                                     <td>{{ $item->total_jam_terlambat }} Jam</td>
                                     <td>{{ $item->waktu_keluar ?? '-' }}</td>
+                                    <td>
+                                        <a href="https://www.google.com/maps/search/?api=1&query={{ $item->latitude }},{{ $item->longitude }}" target="_blank">
+                                            <i class="fas fa-map-marker-alt"></i>
+                                            Lihat di Maps
+                                        </a>
+                                    </td>
                                     <td>{{ $item->total_waktu_kerja ? $item->total_waktu_kerja . ' Jam' : '-' }}</td>
                                 </tr>
                             @endforeach

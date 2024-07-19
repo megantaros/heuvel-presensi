@@ -77,6 +77,11 @@ class UserSeeder extends Seeder
                     'total_jam_terlambat' => $diffLate,
                     'total_waktu_kerja' => $diffPunchInOut,
                     'keterangan' => $keterangan,
+                    'foto' => 'https://via.placeholder.com/150',
+                    'latitude' => '-6.200000',
+                    'longitude' => '106.816666',
+                    'lokasi' => 'https://www.google.com/maps/search/?api=1&query=-6.200000,106.816666',
+                    'jenis' => 'hadir',
                 ]);
             }
 
@@ -103,6 +108,11 @@ class UserSeeder extends Seeder
                     'total_jam_terlambat' => $diffLate,
                     'total_waktu_kerja' => $diffPunchInOut,
                     'keterangan' => $keterangan,
+                    'foto' => 'https://via.placeholder.com/150',
+                    'latitude' => '-6.200000',
+                    'longitude' => '106.816666',
+                    'lokasi' => 'https://www.google.com/maps/search/?api=1&query=-6.200000,106.816666',
+                    'jenis' => 'hadir',
                 ]);
             }
 
@@ -125,6 +135,11 @@ class UserSeeder extends Seeder
                     'total_jam_terlambat' => $diffLate,
                     'total_waktu_kerja' => $diffPunchInOut,
                     'keterangan' => $keterangan,
+                    'foto' => 'https://via.placeholder.com/150',
+                    'latitude' => '-6.200000',
+                    'longitude' => '106.816666',
+                    'lokasi' => 'https://www.google.com/maps/search/?api=1&query=-6.200000,106.816666',
+                    'jenis' => 'hadir',
                 ]);
             }
 
@@ -145,6 +160,11 @@ class UserSeeder extends Seeder
                     'total_jam_terlambat' => $diffLate,
                     'total_waktu_kerja' => $diffPunchInOut,
                     'keterangan' => $keterangan,
+                    'foto' => 'https://via.placeholder.com/150',
+                    'latitude' => '-6.200000',
+                    'longitude' => '106.816666',
+                    'lokasi' => 'https://www.google.com/maps/search/?api=1&query=-6.200000,106.816666',
+                    'jenis' => 'hadir',
                 ]);
             }
 
